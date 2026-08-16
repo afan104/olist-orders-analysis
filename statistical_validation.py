@@ -16,7 +16,7 @@ conn = psycopg2.connect(host=HOST, port=PORT, dbname=DBNAME, user=USER, password
 ## T test (Welch's due to unequal variance and group size)
 ## regional lead time differences (SP v all other locations)
 query = """SELECT
-    orders.order_id,
+    DISTINCT orders.order_id,
     seller_state,
     DATEDIFF('day', orders.order_purchase_timestamp, orders.order_delivered_customer_date) as lead_time
 FROM orders
@@ -62,8 +62,8 @@ expected_df = pd.DataFrame(
 )
 print("Observed:")
 print(crosstab)
-print("Expected:")
-print(expected_df)
+print("\nExpected:")
+print(expected_df.round(2))
+print(f"\nchi2 = {res.statistic:.2f}, dof = {res.dof}, p = {res.pvalue:.4g}")
 
-print(res)
 conn.close()
