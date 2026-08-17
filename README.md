@@ -65,8 +65,8 @@ Breaking fulfillment rate down by month and seller state surfaces an interesting
 
 | Month   | RJ    | SP    | MG    | PR    | SC    | RS    |
 | ------- | ----- | ----- | ----- | ----- | ----- | ----- |
-| 2018-01 | 92.1% | 93.7% | 95.9% | 93.5% | —    | —    |
-| 2018-02 | 87.2% | 82.2% | 89.8% | 87.1% | 89.2% | —    |
+| 2018-01 | 92.1% | 93.7% | 95.9% | 93.5% | —     | —     |
+| 2018-02 | 87.2% | 82.2% | 89.8% | 87.1% | 89.2% | —     |
 | 2018-03 | 65.4% | 77.0% | 85.7% | 87.4% | 89.4% | 91.7% |
 | 2018-04 | 96.0% | 94.5% | 94.5% | 96.2% | 94.8% | 95.5% |
 
@@ -106,7 +106,7 @@ Create four datasets using **Custom SQL**, one per query from Part 3.
 Line chart. X axis: month. Y axis: fulfillment rate %. Add a reference line at 90% to make the SLA target visible.
 
 **Visual 2 — Lead Time by Category (Top 10)**
-Horizontal bar chart sorted descending by average lead days. Filter to the top 10 categories. Color bars that exceed 20 days using a conditional formatting rule to show which categories are bottlenecks.
+Horizontal bar chart sorted descending by average lead days. Filter to the top 10 categories.
 
 **Visual 3 — Order Volume Over Time**
 Area chart. X axis: month. Y axis: order volume. Use category as the color series, but filter to the top 5 categories by total volume. This shows overall platform growth and which categories drive it.
@@ -150,10 +150,10 @@ Pull region and order status for all orders, then build a contingency table with
 
 This is the more important finding than the number itself. Two earlier, invalid versions of this test looked dramatically significant, and the p-value collapsed as each problem got fixed:
 
-| Version   | `unavailable` included? | State grouping            | chi2   | dof | p-value | Smallest expected cell |
-| --------- | ------------------------- | ------------------------- | ------ | --- | ------- | ---------------------- |
-| 1st run   | Yes                       | None                      | 228.78 | 42  | 1.5e-27 | ~0.0002                |
-| 2nd run   | Yes                       | <100 orders →`OTHER`   | 122.51 | 26  | 1.8e-14 | ~0.01                  |
-| Final run | No                        | <1,000 orders →`OTHER` | 11.57  | 6   | 0.072   | 9.31                   |
+| Version   | `unavailable` included? | State grouping         | chi2   | dof | p-value | Smallest expected cell |
+| --------- | ----------------------- | ---------------------- | ------ | --- | ------- | ---------------------- |
+| 1st run   | Yes                     | None                   | 228.78 | 42  | 1.5e-27 | ~0.0002                |
+| 2nd run   | Yes                     | <100 orders →`OTHER`   | 122.51 | 26  | 1.8e-14 | ~0.01                  |
+| Final run | No                      | <1,000 orders →`OTHER` | 11.57  | 6   | 0.072   | 9.31                   |
 
 Both invalid runs had expected cell counts far below the standard reliability threshold of 5 (some under 1), driven by rare states and the near-nonexistent `unavailable` category. As those sparse cells got fixed, first by grouping small states, then by dropping the 7-order `unavailable` category, the chi2 statistic dropped along with it, and the result went from "overwhelming" to "not significant." A chi-squared test run on cells that violate its own assumptions can produce an extremely small p-value that disappears once those assumptions are actually satisfied.

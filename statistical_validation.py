@@ -65,13 +65,13 @@ df["seller_state"] = df["seller_state"].where(
 crosstab = pd.crosstab(df["seller_state"], df["order_status"])
 res = scipy.stats.chi2_contingency(crosstab)
 expected_df = pd.DataFrame(
-    res.expected_freq, index=crosstab.index, columns=crosstab.columns
+    res.expected_freq, index=crosstab.index, columns=crosstab.columns # type: ignore
 )
 print("Observed:")
 print(crosstab)
 print("\nExpected:")
 print(expected_df.round(2))
-print(f"\nchi2 = {res.statistic:.2f}, dof = {res.dof}, p = {res.pvalue:.4g}")
+print(f"\nchi2 = {res.statistic:.2f}, dof = {res.dof}, p = {res.pvalue:.4g}") # type: ignore
 
 ## Follow-up: did the estimated delivery window itself get tighter over time,
 ## separate from actual delivery speed changing?
